@@ -48,9 +48,10 @@ echo "   UserKnownHostsFile /dev/null" >> ~/.ssh/config
 echo "   LogLevel ERROR" >> ~/.ssh/config
 echo "-----> Installed SSH key from GIT_SSH_KEY"
 
+echo ${SOURCE_VERSION:-master}
 # checkout the revision that's being deployed
-git fetch -q --depth 1 origin -a > /dev/null
-git checkout -q ${SOURCE_VERSION:-master} > /dev/null
+git fetch -q --depth 5 origin -a > /dev/null || exit 1
+git checkout -q ${SOURCE_VERSION:-master} > /dev/null || exit 1
 echo "-----> Fetched shallow history from $GIT_REPO_URL"
 
 # initialize all the submodules
