@@ -48,13 +48,13 @@ echo "   UserKnownHostsFile /dev/null" >> ~/.ssh/config
 echo "   LogLevel ERROR" >> ~/.ssh/config
 echo "-----> Installed SSH key from GIT_SSH_KEY"
 
+echo "Revision:"
 echo ${SOURCE_VERSION:-master}
-echo ${SOURCE_VERSION:-${HEROKU_TEST_RUN_COMMIT_VERSION:master}}
 # checkout the revision that's being deployed
 echo "Fetching..."
-git fetch -q origin -a > /dev/null || exit 1
+git fetch -q origin -all > /dev/null || exit 1
 echo "Checkout..."
-git checkout master > /dev/null || exit 1
+git checkout ${SOURCE_VERSION:-master} > /dev/null || exit 1
 echo "-----> Fetched shallow history from $GIT_REPO_URL"
 
 # initialize all the submodules
