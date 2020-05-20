@@ -54,7 +54,7 @@ echo ${SOURCE_VERSION:-${HEROKU_TEST_RUN_COMMIT_VERSION:master}}
 echo "Fetching..."
 git fetch -q origin -a > /dev/null || exit 1
 echo "Checkout..."
-git checkout -q ${SOURCE_VERSION:-${HEROKU_TEST_RUN_COMMIT_VERSION:master}} > /dev/null || exit 1
+git checkout master > /dev/null || exit 1
 echo "-----> Fetched shallow history from $GIT_REPO_URL"
 
 # initialize all the submodules
