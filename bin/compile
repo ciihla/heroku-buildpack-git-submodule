@@ -50,6 +50,9 @@ echo "-----> Installed SSH key from GIT_SSH_KEY"
 
 echo "Revision:"
 echo ${SOURCE_VERSION:-master}
+
+git submodule -q update --init --recursive
+
 # checkout the revision that's being deployed
 echo "Fetching..."
 git fetch -q origin > /dev/null || exit 1
