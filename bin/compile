@@ -6,10 +6,16 @@ ENV_DIR="$3"
 # load required environment variables
 GIT_REPO_URL=$(<"$ENV_DIR/GIT_REPO_URL")
 GIT_SSH_KEY=$(<"$ENV_DIR/GIT_SSH_KEY")
+GIT_BRANCH=$(<"$ENV_DIR/GIT_BRANCH")
 
 if [[ -z $GIT_REPO_URL ]]; then
     echo "Did you forget to set GIT_REPO_URL?"
     exit 1
+fi
+
+if [[ -z $GIT_BRANCH ]]; then
+    echo "Default GIT_BRANCH to master"
+    GIT_BRANCH="master"
 fi
 
 if [[ -z $GIT_SSH_KEY ]]; then
@@ -48,14 +54,17 @@ echo "   UserKnownHostsFile /dev/null" >> ~/.ssh/config
 echo "   LogLevel ERROR" >> ~/.ssh/config
 echo "-----> Installed SSH key from GIT_SSH_KEY"
 
+echo "Branch:"
+echo $GIT_BRANCH
+
 echo "Revision:"
-echo ${SOURCE_VERSION:-master}
+echo ${SOURCE_VERSION:-$GIT_BRANCH}
 
 # checkout the revision that's being deployed
 echo "Fetching..."
 git fetch -q --depth 1 origin -a > /dev/null || exit 1
 echo "Checkout..."
-git checkout ${SOURCE_VERSION:-master} > /dev/null || exit 1
+git checkout ${SOURCE_VERSION:-$GIT_BRANCH} > /dev/null || exit 1
 echo "-----> Fetched shallow history from $GIT_REPO_URL"
 
 # initialize all the submodules
